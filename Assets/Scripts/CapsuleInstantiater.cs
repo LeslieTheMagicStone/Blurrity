@@ -2,15 +2,16 @@ using UnityEngine;
 
 public class CapsuleInstantiater : MonoBehaviour
 {
+    public float maxHeight;
+    public bool useBuffer;
     [SerializeField]
     private Transform capsulePrefab;
-    [SerializeField]
-    private float maxHeight = 5;
-    private Transform[] capsules = new Transform[512];
+    private Transform[] capsules;
 
     private void Start()
     {
-        var len = AudioVisualizer.outputs.Length;
+        var len = BandSource.rawBands.Length;
+        capsules = new Transform[len];
 
         for (int i = 0; i < len; i++)
         {
@@ -29,7 +30,7 @@ public class CapsuleInstantiater : MonoBehaviour
         {
             if (capsules[i] == null) continue;
 
-            var output = AudioVisualizer.outputs[i];
+            var output = useBuffer ? BandSource.bufferedRelativeBands[i] : BandSource.rawRelativeBands[i];
             var height = output * maxHeight;
             var origScale = capsules[i].localScale;
             capsules[i].localScale = new Vector3(origScale.x, height, origScale.z);
@@ -37,4 +38,6 @@ public class CapsuleInstantiater : MonoBehaviour
             capsules[i].localPosition = new Vector3(origPos.x, height / 2, origPos.z);
         }
     }
+
+
 }
