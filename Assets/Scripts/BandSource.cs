@@ -1,27 +1,36 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BandSource : MonoBehaviour
 {
-    public static float[] samples = new float[512];
-    public static float[] rawBands = new float[8];
-    public static float[] bufferedBands = new float[8];
+    public enum SourceType { Master, AudioSource };
+
+    [Header("Important!!")]
+    public SourceType sourceType;
+
+    public float[] samples = new float[512];
+    public float[] rawBands = new float[8];
+    public float[] bufferedBands = new float[8];
 
     /// <summary>
     /// It ranges from zero to one and represents the amplitude of each band relative to its band history value.
     /// </summary>
-    public static float[] rawRelativeBands = new float[8];
+    public float[] rawRelativeBands = new float[8];
     /// <summary>
     /// It ranges from zero to one and represents the amplitude of each band relative to its band history value.
     /// </summary>
-    public static float[] bufferedRelativeBands = new float[8];
+    public float[] bufferedRelativeBands = new float[8];
 
     public float initialBufferDecrease;
     public float bandVolumeThreshold;
     public bool accelerateBufferDecrease;
 
-    private static float[] bandHighests = new float[8];
+    private float[] bandHighests = new float[8];
     private float[] bufferDecrease = new float[8];
+
+    private AudioSource[] audioSources;
 
     private void Awake()
     {
@@ -42,6 +51,16 @@ public class BandSource : MonoBehaviour
         {
             bandHighests[i] = 0.0001f;
         }
+
+    }
+
+    private void Start()
+    {
+        // Get Audio Sources if needed
+        if (sourceType == SourceType.AudioSource)
+        {
+            audioSources = GetComponents<AudioSource>();
+        }
     }
 
     private void Update()
@@ -52,7 +71,22 @@ public class BandSource : MonoBehaviour
 
     private void GetAudioSpectrumSource()
     {
-        AudioListener.GetSpectrumData(samples, 0, FFTWindow.Blackman);
+        if (sourceType == SourceType.Master)
+        {
+            AudioListener.GetSpectrumData(samples, 0, FFTWindow.Blackman);
+        }
+        else
+        {
+            samples = new float[samples.Length];
+            foreach (var audioSource in audioSources)
+            {
+                var sourceSamples = new float[samples.Length];
+                audioSource.GetSpectrumData(sourceSamples, 0, FFTWindow.Blackman);
+
+                for (int i = 0; i < samples.Length; i++)
+                    samples[i] += sourceSamples[i];
+            }
+        }
     }
 
     private void UpdateOutput()
@@ -77,8 +111,6 @@ public class BandSource : MonoBehaviour
         // Update buffered bands.
         for (int i = 0; i < bufferedBands.Length; i++)
         {
-            rawBands[i] = rawBands[i];
-
             if (rawBands[i] > bufferedBands[i])
             {
                 bufferedBands[i] = rawBands[i];

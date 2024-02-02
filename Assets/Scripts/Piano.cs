@@ -2,11 +2,13 @@ using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEditor.UI;
+using System.Collections;
 
 public class Piano : MonoBehaviour
 {
     public string audioRoot;
     public bool inThreeBandMode;
+    public bool enablePlayerInput;
     [SerializeField]
     private float keyStartTimeOffset;
     [SerializeField]
@@ -14,6 +16,8 @@ public class Piano : MonoBehaviour
     private AudioClip[] keys;
     private Dictionary<string, int> keyboardMap, keyboardLowMap, keyboardMidMap, keyboardHighMap;
     private Dictionary<string, AudioSource> keyboardAudioSourceMap;
+    private AudioSource[] audioSources;
+    private Coroutine[] playCoroutines;
 
 
     private void Awake()
@@ -22,7 +26,7 @@ public class Piano : MonoBehaviour
         AudioClip[] unorderedKeys = Resources.LoadAll<AudioClip>(audioRoot);
         keys = unorderedKeys.OrderBy(k => int.Parse(k.name[(k.name.LastIndexOf('_') + 1)..])).ToArray();
 
-        // Initialize keyboard-keynote maps
+        // Initialize keyboard-keynote maps.
         keyboardLowMap = new Dictionary<string, int>()
         {
             { "z", 12 },
@@ -68,40 +72,113 @@ public class Piano : MonoBehaviour
         foreach (var kvp in keyboardHighMap)
             keyboardMap.Add(kvp.Key, kvp.Value);
 
-        // Add audio sources mapping each key
+        // Add audio sources mapping each key index.
+        audioSources = new AudioSource[keys.Length];
+        for (int i = 0; i < keys.Length; i++)
+        {
+            var audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.clip = keys[i];
+
+            // Map key index to audio source.
+            audioSources[i] = audioSource;
+        }
+
+        // Map input key to audio source.
         keyboardAudioSourceMap = new() { };
         foreach (var kvp in keyboardMap)
         {
-            var audioSource = gameObject.AddComponent<AudioSource>();
-            audioSource.clip = keys[kvp.Value];
-            keyboardAudioSourceMap.Add(kvp.Key, audioSource);
+            keyboardAudioSourceMap.Add(kvp.Key, audioSources[kvp.Value]);
         }
 
-
+        // Initialize play coroutines.
+        playCoroutines = new Coroutine[keys.Length];
     }
 
     // Each frame check keyboard input and convert to piano key.
     private void Update()
     {
+        if (!enablePlayerInput) return;
+
         if (inThreeBandMode) ThreeBandModeUpdate();
         else NormalModeUpdate();
     }
 
+    /// <summary>
+    /// Enable player input to play the piano or not.
+    /// </summary>
+    public void SetEnablePlayerInput(bool value)
+    {
+        enablePlayerInput = value;
+    }
+
+    /// <summary>
+    /// Play a certain key.
+    /// </summary>
+    /// <param name="index">the index of the key</param>
+    public void Play(int index)
+    {
+        Stop(index);
+        audioSources[index].time = keyStartTimeOffset;
+        audioSources[index].Play();
+    }
+
+    /// <summary>
+    /// Play a certain key for a duration.
+    /// </summary>
+    /// <param name="index">the index of the key</param>
+    /// <param name="duration">the duration of the play</param>
+    public void Play(int index, float duration)
+    {
+        Stop(index);
+        var playCoroutine = StartCoroutine(PlayCoroutine(index, duration));
+        playCoroutines[index] = playCoroutine;
+    }
+
+    /// <summary>
+    /// Stop a certain key.
+    /// </summary>
+    /// <param name="index">the index of the key</param>
+    public void Stop(int index)
+    {
+        audioSources[index].Stop();
+        if (playCoroutines[index] != null)
+        {
+            StopCoroutine(playCoroutines[index]);
+            playCoroutines[index] = null;
+        }
+    }
+
+
+    /// <summary>
+    /// Stop all playing keys.
+    /// </summary>
+    public void StopAll()
+    {
+        for (int i = 0; i < keys.Length; i++)
+        {
+            Stop(i);
+        }
+    }
+
+    private IEnumerator PlayCoroutine(int index, float duration)
+    {
+        audioSources[index].time = keyStartTimeOffset;
+        audioSources[index].Play();
+        yield return new WaitForSeconds(duration);
+        Stop(index);
+    }
 
     private void NormalModeUpdate()
     {
         foreach (var kvp in keyboardMap)
         {
-            var audioSource = keyboardAudioSourceMap[kvp.Key];
-
             if (Input.GetKeyDown(kvp.Key))
             {
-                audioSource.time = keyStartTimeOffset;
-                audioSource.Play();
+                Play(kvp.Value);
             }
             else if (Input.GetKeyUp(kvp.Key))
             {
-                audioSource.Stop();
+                Stop(kvp.Value);
             }
         }
     }

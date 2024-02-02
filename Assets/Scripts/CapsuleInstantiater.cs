@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CapsuleInstantiater : MonoBehaviour
 {
+    public BandSource bandSource;
     public float maxHeight;
     public bool useBuffer;
     [SerializeField]
@@ -10,7 +11,7 @@ public class CapsuleInstantiater : MonoBehaviour
 
     private void Start()
     {
-        var len = BandSource.rawBands.Length;
+        var len = bandSource.rawBands.Length;
         capsules = new Transform[len];
 
         for (int i = 0; i < len; i++)
@@ -30,7 +31,7 @@ public class CapsuleInstantiater : MonoBehaviour
         {
             if (capsules[i] == null) continue;
 
-            var output = useBuffer ? BandSource.bufferedRelativeBands[i] : BandSource.rawRelativeBands[i];
+            var output = useBuffer ? bandSource.bufferedRelativeBands[i] : bandSource.rawRelativeBands[i];
             var height = output * maxHeight;
             var origScale = capsules[i].localScale;
             capsules[i].localScale = new Vector3(origScale.x, height, origScale.z);
