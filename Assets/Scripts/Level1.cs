@@ -35,17 +35,19 @@ public partial class Level1 : MonoBehaviour
 
         beatCount = newBeatCount;
 
-        if (playersBeats.Contains(beatCount))
-        {
-            isPlayersBeat = true;
-            playerPiano.SetEnablePlayerInput(true);
-        }
-        else
-        {
-            isPlayersBeat = false;
-            playerPiano.SetEnablePlayerInput(false);
-            computerPiano.Play(Random.Range(0, 88), 0.5f);
-        }
+        // if (playersBeats.Contains(beatCount))
+        // {
+        //     isPlayersBeat = true;
+        //     playerPiano.SetEnablePlayerInput(true);
+        // }
+        // else
+        // {
+        //     isPlayersBeat = false;
+        //     playerPiano.SetEnablePlayerInput(false);
+        //     computerPiano.Play(Random.Range(0, 88), 0.5f);
+        // }
+
+        isPlayersBeat = false;
     }
 
     private bool GetIsPlayersBeat()

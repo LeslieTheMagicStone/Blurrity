@@ -5,10 +5,15 @@ using UnityEngine;
 
 public class BandSource : MonoBehaviour
 {
-    public enum SourceType { Master, AudioSource };
+    public enum SourceType { Global, Local };
 
     [Header("Important!!")]
-    public SourceType sourceType;
+    public SourceType sourceType = SourceType.Local;
+    public float initialBufferDecrease = 0.01f;
+    [SerializeField]
+    public float[] absoluteVolumeThreshold = { 0.002f, 0.00001f, 0.00001f, 0.00001f, 0.00001f, 0.0000001f, 0.0000001f, 0.0000001f };
+    public float relativeVolumeThreshold = 0.01f;
+    public bool accelerateBufferDecrease = false;
 
     public float[] samples = new float[512];
     public float[] rawBands = new float[8];
@@ -22,10 +27,6 @@ public class BandSource : MonoBehaviour
     /// It ranges from zero to one and represents the amplitude of each band relative to its band history value.
     /// </summary>
     public float[] bufferedRelativeBands = new float[8];
-
-    public float initialBufferDecrease;
-    public float bandVolumeThreshold;
-    public bool accelerateBufferDecrease;
 
     private float[] bandHighests = new float[8];
     private float[] bufferDecrease = new float[8];
@@ -45,33 +46,34 @@ public class BandSource : MonoBehaviour
         {
             bufferedBands[i] = 0;
         }
-
-        // Init band highests.
-        for (int i = 0; i < bandHighests.Length; i++)
-        {
-            bandHighests[i] = 0.0001f;
-        }
-
     }
 
     private void Start()
     {
-        // Get Audio Sources if needed
-        if (sourceType == SourceType.AudioSource)
-        {
-            audioSources = GetComponents<AudioSource>();
-        }
+        GetAudioSources();
     }
 
     private void Update()
     {
+        GetAudioSources();
         GetAudioSpectrumSource();
         UpdateOutput();
     }
 
+    private void GetAudioSources()
+    {
+        // Get Audio Sources if needed
+        if (sourceType == SourceType.Local)
+        {
+            var bounds = GetComponent<Collider>().bounds;
+            AudioSource[] sounds = FindObjectsOfType<AudioSource>();
+            audioSources = sounds.Where(s => bounds.Contains(s.transform.position)).ToArray();
+        }
+    }
+
     private void GetAudioSpectrumSource()
     {
-        if (sourceType == SourceType.Master)
+        if (sourceType == SourceType.Global)
         {
             AudioListener.GetSpectrumData(samples, 0, FFTWindow.Blackman);
         }
@@ -105,7 +107,15 @@ public class BandSource : MonoBehaviour
                 sampleIndex++;
             }
             float average = sampleSum / bandSampleCount;
-            rawBands[bandIndex] = average > bandVolumeThreshold ? average : 0;
+
+            // Update band highests.
+            if (average > bandHighests[bandIndex]) bandHighests[bandIndex] = average;
+
+            if (average < absoluteVolumeThreshold[bandIndex]) average = 0;
+
+            float relativeValue = bandHighests[bandIndex] == 0 ? 0 : average / bandHighests[bandIndex];
+
+            rawBands[bandIndex] = relativeValue > relativeVolumeThreshold ? average : 0;
         }
 
         // Update buffered bands.
@@ -122,28 +132,26 @@ public class BandSource : MonoBehaviour
 
                 if (accelerateBufferDecrease)
                 {
-                    bufferDecrease[i] *= 1.2f;
+                    bufferDecrease[i] *= 1.02f;
                 }
 
                 bufferedBands[i] = Mathf.Max(bufferedBands[i], 0);
             }
         }
 
-        // Update band highests.
-        for (int i = 0; i < bandHighests.Length; i++)
-        {
-            if (rawBands[i] > bandHighests[i])
-            {
-                bandHighests[i] = rawBands[i];
-            }
-        }
-
         // Update raw relative bands.
         for (int i = 0; i < rawRelativeBands.Length; i++)
-            rawRelativeBands[i] = rawBands[i] / bandHighests[i];
+        {
+            float relativeValue = bandHighests[i] == 0 ? 0 : rawBands[i] / bandHighests[i];
+            rawRelativeBands[i] = relativeValue;
+        }
+
 
         // Update buffered relative bands.
         for (int i = 0; i < bufferedRelativeBands.Length; i++)
-            bufferedRelativeBands[i] = bufferedBands[i] / bandHighests[i];
+        {
+            float relativeValue = bandHighests[i] == 0 ? 0 : bufferedBands[i] / bandHighests[i];
+            bufferedRelativeBands[i] = relativeValue;
+        }
     }
 }

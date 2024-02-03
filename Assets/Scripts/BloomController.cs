@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-public class GlobalVolumeController : MonoBehaviour
+public class BloomController : MonoBehaviour
 {
     public BandSource bandSource;
     public bool useBuffer;
