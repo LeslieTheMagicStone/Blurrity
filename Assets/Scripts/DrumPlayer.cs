@@ -30,6 +30,11 @@ public class DrumPlayer : MonoBehaviour
     private IEnumerator PlayDelayedCoroutine(float delay)
     {
         yield return new WaitForSeconds(delay);
-        AudioSource.PlayClipAtPoint(drumSound, transform.position);
+        
+        var drumAudio = new GameObject("OneShotDrumAudio");
+        drumAudio.transform.SetParent(transform);
+        drumAudio.transform.localPosition = new(0,0,0);
+        var audioSource = drumAudio.AddComponent<AudioSource>();
+        audioSource.PlayOneShot(drumSound);
     }
 }

@@ -1,23 +1,26 @@
 using UnityEngine;
 
-public class GetCameraTexture : MonoBehaviour
+public class CameraViewSprite : MonoBehaviour
 {
     public Camera sourceCamera;
-    public Material targetMaterial;
-    public string texturePropertyName = "_MainTex";
+    private SpriteRenderer spriteRenderer;
 
     private RenderTexture renderTexture;
 
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
     void Start()
     {
-        Debug.Log(sourceCamera.targetTexture);
         renderTexture = new RenderTexture(Screen.width, Screen.height, 24);
         sourceCamera.targetTexture = renderTexture;
     }
 
     void Update()
     {
-        targetMaterial.SetTexture(texturePropertyName, renderTexture);
+        spriteRenderer.sprite = CreateSprite();
     }
 
     void OnDestroy()
@@ -27,5 +30,19 @@ public class GetCameraTexture : MonoBehaviour
             renderTexture.Release();
             renderTexture = null;
         }
+    }
+
+    private Sprite CreateSprite()
+    {
+        Texture2D texture = new(renderTexture.width, renderTexture.height, TextureFormat.RGBA32, false);
+
+        RenderTexture.active = renderTexture;
+        texture.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
+        texture.Apply();
+        RenderTexture.active = null;
+
+        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * 0.5f);
+
+        return sprite;
     }
 }
