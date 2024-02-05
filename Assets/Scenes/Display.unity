@@ -254,6 +254,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 18227055}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &218422161
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 218422162}
+  - component: {fileID: 218422163}
+  m_Layer: 0
+  m_Name: InputComparer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &218422162
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 218422161}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1185784399}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &218422163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 218422161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ab4267f591b3d247970bdf7da238d10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetInputKey: 13
+  perfectTimingThreshold: 0.1
+  earlyTimingThreshold: 0.2
+  lateTimingThreshold: 0.2
+  badTimingThreshold: 0.3
+  inputFilePath: Assets\MusicData\Blossom\Drum\InputData.txt
+  OnLate:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEarly:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPerfect:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBad:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &323903736
 GameObject:
   m_ObjectHideFlags: 0
@@ -470,7 +532,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5029287149967446924, guid: e14e2fa214e3cc445a69836812aa41ed, type: 3}
       propertyPath: m_Name
-      value: Drum
+      value: DrumPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 7796749311884756446, guid: e14e2fa214e3cc445a69836812aa41ed, type: 3}
       propertyPath: m_ClearFlags
@@ -561,7 +623,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5029287149967446924, guid: e14e2fa214e3cc445a69836812aa41ed, type: 3}
       propertyPath: m_Name
-      value: Blossom
+      value: BlossomPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 7796749311884756446, guid: e14e2fa214e3cc445a69836812aa41ed, type: 3}
       propertyPath: m_ClearFlags
@@ -604,7 +666,7 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 7796749311884756446, guid: e14e2fa214e3cc445a69836812aa41ed, type: 3}
   m_PrefabInstance: {fileID: 649810856}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1059097431
+--- !u!1 &947684096
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -612,40 +674,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1059097433}
-  - component: {fileID: 1059097432}
-  m_Layer: 0
-  m_Name: InputLogger
+  - component: {fileID: 947684098}
+  - component: {fileID: 947684097}
+  m_Layer: 3
+  m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1059097432
-MonoBehaviour:
+--- !u!65 &947684097
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1059097431}
+  m_GameObject: {fileID: 947684096}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 234411b703884184ea08fbc07a846565, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clearOnPlay: 0
-  filePath: Assets\MusicData\Blossom\Drum\InputData.txt
---- !u!4 &1059097433
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &947684098
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1059097431}
+  m_GameObject: {fileID: 947684096}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10000.753, y: 0.35722318, z: -0.021745274}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalScale: {x: 10000, y: 1, z: 10000}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -820,6 +889,38 @@ Transform:
   - {fileID: 1838399308}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1185784398
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1185784399}
+  m_Layer: 0
+  m_Name: Managers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1185784399
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1185784398}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 218422162}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1631313253
 GameObject:
   m_ObjectHideFlags: 0
@@ -831,6 +932,8 @@ GameObject:
   - component: {fileID: 1631313256}
   - component: {fileID: 1631313255}
   - component: {fileID: 1631313254}
+  - component: {fileID: 1631313258}
+  - component: {fileID: 1631313257}
   m_Layer: 0
   m_Name: BlossomDisplay
   m_TagString: Untagged
@@ -918,6 +1021,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 18227055}
   m_LocalEulerAnglesHint: {x: 0, y: -49.822, z: 0}
+--- !u!65 &1631313257
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631313253}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1631313258
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631313253}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!4 &1838399308 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 372645149752804551, guid: e14e2fa214e3cc445a69836812aa41ed, type: 3}
@@ -1055,7 +1206,8 @@ AudioSource:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1059097433}
   - {fileID: 323903741}
   - {fileID: 18227055}
   - {fileID: 1135107725}
+  - {fileID: 947684098}
+  - {fileID: 1185784399}

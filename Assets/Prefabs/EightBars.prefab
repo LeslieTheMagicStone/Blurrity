@@ -1435,6 +1435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drumSound: {fileID: 8300000, guid: 566735f3497500d4caafb4e4e6bfab63, type: 3}
+  timeOffset: 0
   inputFilePath: Assets\MusicData\Blossom\Drum\InputData.txt
 --- !u!1 &4357433500493117101
 GameObject:
@@ -1599,7 +1600,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7456467885740535735}
   - component: {fileID: 7796749311884756446}
-  - component: {fileID: 248123597258347862}
   - component: {fileID: 3047549533022188997}
   m_Layer: 0
   m_Name: MainCamera
@@ -1674,14 +1674,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &248123597258347862
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5791775832746396073}
-  m_Enabled: 1
 --- !u!114 &3047549533022188997
 MonoBehaviour:
   m_ObjectHideFlags: 0

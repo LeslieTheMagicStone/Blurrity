@@ -19,9 +19,12 @@ public class Player : MonoBehaviour
 
         transform.Translate(speed * speedUpFactor * Time.deltaTime * movement, Space.Self);
 
-        float mouseX = Input.GetAxis("Mouse X");
-        float rotationAmount = mouseX * rotationSpeed;
+        if (!Input.GetKey(KeyCode.LeftAlt))
+        {
+            float mouseX = Input.GetAxis("Mouse X");
+            float rotationAmount = mouseX * rotationSpeed;
 
-        transform.Rotate(Vector3.up, rotationAmount);
+            transform.Rotate(Vector3.up, rotationAmount);
+        }
     }
 }
