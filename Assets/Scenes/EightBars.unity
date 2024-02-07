@@ -351,7 +351,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1393132100}
-  - component: {fileID: 1393132099}
+  - component: {fileID: 1393132101}
   m_Layer: 0
   m_Name: InputLogger
   m_TagString: Untagged
@@ -359,18 +359,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1393132099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1393132098}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 234411b703884184ea08fbc07a846565, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1393132100
 Transform:
   m_ObjectHideFlags: 0
@@ -386,6 +374,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1393132101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1393132098}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feca16194e373554298b340c955bbe6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clearOnPlay: 1
+  filePath: Assets/MusicData/Blossom/Drum/InputData.txt
 --- !u!1001 &6020525989447774207
 PrefabInstance:
   m_ObjectHideFlags: 0
