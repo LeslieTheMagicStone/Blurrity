@@ -13,6 +13,7 @@ public class InputComparer : MonoBehaviour
     public string inputFilePath;
 
     public UnityEvent OnLate, OnEarly, OnPerfect, OnBad;
+    public int inputCount;
     private List<float> inputTimes;
     private float startTime;
     private float time => Time.time - startTime;
@@ -30,6 +31,8 @@ public class InputComparer : MonoBehaviour
                 inputTimes.Add(time);
             }
         }
+
+        inputCount = inputTimes.Count;
 
         startTime = Time.time;
     }
