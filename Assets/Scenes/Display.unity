@@ -187,7 +187,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9, y: 0.9, z: 0.01}
+  m_LocalScale: {x: 0.90000004, y: 0.9, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1703024749}
@@ -480,7 +480,7 @@ Transform:
   m_GameObject: {fileID: 323903736}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -2.32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -514,6 +514,8 @@ GameObject:
   - component: {fileID: 470236287}
   - component: {fileID: 470236286}
   - component: {fileID: 470236290}
+  - component: {fileID: 470236291}
+  - component: {fileID: 470236292}
   m_Layer: 0
   m_Name: Blossom
   m_TagString: Untagged
@@ -601,8 +603,8 @@ Transform:
   m_GameObject: {fileID: 470236285}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 1.347, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 0.02}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1220605160}
@@ -620,6 +622,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8137823a477a4054181f1baec3366c4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!54 &470236291
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470236285}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &470236292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470236285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01c6eea1d9c490e40b2cfb10288ef39b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayType: 0
+  trackDataPath: Assets\MusicData\Blossom\Drum\InputData.txt
+  doubleClickTime: 0.3
 --- !u!1001 &556811964
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -667,14 +711,6 @@ PrefabInstance:
     - target: {fileID: 372645149752804551, guid: e14e2fa214e3cc445a69836812aa41ed, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4338226370612374581, guid: e14e2fa214e3cc445a69836812aa41ed, type: 3}
-      propertyPath: enablePlayerInput
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4983666619090715011, guid: e14e2fa214e3cc445a69836812aa41ed, type: 3}
-      propertyPath: timeOffset
-      value: -0.3
       objectReference: {fileID: 0}
     - target: {fileID: 5029287149967446924, guid: e14e2fa214e3cc445a69836812aa41ed, type: 3}
       propertyPath: m_Name
@@ -1223,7 +1259,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9, y: 0.9, z: 0.01}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 470236289}
@@ -1373,6 +1409,7 @@ GameObject:
   - component: {fileID: 1703024752}
   - component: {fileID: 1703024751}
   - component: {fileID: 1703024750}
+  - component: {fileID: 1703024754}
   m_Layer: 0
   m_Name: Drum
   m_TagString: Untagged
@@ -1390,7 +1427,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.13774036, z: -0, w: 0.9904684}
   m_LocalPosition: {x: -1.25, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 0.02}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 138374982}
@@ -1479,6 +1516,33 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1703024748}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &1703024754
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703024748}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!4 &1838399308 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 372645149752804551, guid: e14e2fa214e3cc445a69836812aa41ed, type: 3}

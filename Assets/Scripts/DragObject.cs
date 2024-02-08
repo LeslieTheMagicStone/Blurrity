@@ -7,17 +7,26 @@ public class DragObject : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log(name);
         if (Input.GetMouseButton(0))
         {
             isDragging = true;
             offset = transform.position - GetMouseWorldPosition();
+
+            if (TryGetComponent(out Rigidbody rb))
+            {
+                rb.isKinematic = true;
+            }
         }
     }
 
     private void OnMouseUp()
     {
         isDragging = false;
+
+        if (TryGetComponent(out Rigidbody rb))
+        {
+            rb.isKinematic = false;
+        }
     }
 
     private void Update()

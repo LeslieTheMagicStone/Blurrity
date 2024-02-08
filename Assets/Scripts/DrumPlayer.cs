@@ -2,13 +2,10 @@ using System.Collections;
 using System.IO;
 using UnityEngine;
 
-public class DrumPlayer : MonoBehaviour
+public class DrumPlayer : Instrument
 {
     public AudioClip drumSound;
     public float timeOffset;
-
-    [SerializeField]
-    private string inputFilePath;
 
     private void Start()
     {

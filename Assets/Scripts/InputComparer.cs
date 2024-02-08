@@ -14,6 +14,8 @@ public class InputComparer : MonoBehaviour
 
     public UnityEvent OnLate, OnEarly, OnPerfect, OnBad;
     private List<float> inputTimes;
+    private float startTime;
+    private float time => Time.time - startTime;
 
     private void Start()
     {
@@ -28,13 +30,14 @@ public class InputComparer : MonoBehaviour
                 inputTimes.Add(time);
             }
         }
+
+        startTime = Time.time;
     }
 
     private void Update()
     {
         if (inputTimes.Count == 0)
         {
-            Debug.Log("Game Over");
             return;
         }
 
@@ -42,9 +45,8 @@ public class InputComparer : MonoBehaviour
         List<float> timesToRemove = new();
         foreach (float time in inputTimes)
         {
-            if (Time.time > time + lateTimingThreshold)
+            if (time > time + lateTimingThreshold)
             {
-                Debug.Log("Too Late");
                 timesToRemove.Add(time);
                 OnBad.Invoke();
             }
@@ -54,7 +56,7 @@ public class InputComparer : MonoBehaviour
         if (Input.GetKeyDown(targetInputKey))
         {
             float inputTime = inputTimes[0];
-            float timeDifference = Time.time - inputTime;
+            float timeDifference = time - inputTime;
             if (Mathf.Abs(timeDifference) <= perfectTimingThreshold)
             {
                 inputTimes.RemoveAt(0);
